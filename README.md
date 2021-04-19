@@ -2,27 +2,26 @@
 
 OpenGL project on the Space Shooter
 
-********************************************************************
 
-                        **G A M E   D E S C R I P T I O N S**
+## **Game Description**
+
+### Keybord control : 
+> W - UP
+> S - DOWN
+> A - LEFT
+> D - RIGHT
                         
-                        
-                        Keybord control : 
-                                          W - UP
-                                          S - DOWN
-                                          A - LEFT
-                                          D - RIGHT
-                        
-                        Mouse Control : 
-                                        Left mouse button - SHOOT
-                                        
-********************************************************************                                      
-                      I N S T R U C T I O N S
+### Mouse Control : 
+> Left mouse button - SHOOT
+                                                                              
+## **Instructions**
+
+Dodge the objects and shoot them
+
+## **Objective**
                       
-                      Dodge the objects and shoot them
-********************************************************************
-                      O B J E C T I V E
-                      
-                      1) Beat the high score
-                      2) Score +1 point for shooting the object
-                      3) Score +50 for level up
+> Beat the high score
+> Score +1 point for shooting the object
+> Score +50 for level up
+
+
