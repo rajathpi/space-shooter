@@ -4,7 +4,7 @@ OpenGL project on the Space Shooter
 
 ********************************************************************
 
-                        G A M E   D E S C R I P T I O N S
+                        **G A M E   D E S C R I P T I O N S**
                         
                         
                         Keybord control : 
