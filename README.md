@@ -5,13 +5,13 @@ OpenGL project on the Space Shooter
 
 ## **Game Description**
 
-### Keybord control : 
+Keybord control : 
 > W - UP <br />
 > S - DOWN <br />
 > A - LEFT <br />
 > D - RIGHT <br />
                         
-### Mouse Control : 
+Mouse Control : 
 > Left mouse button - SHOOT
                                                                               
 ## **Instructions**
