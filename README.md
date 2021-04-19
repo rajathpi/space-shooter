@@ -2,6 +2,11 @@
 
 OpenGL project on the Space Shooter
 
+## **Installation**
+
+1) Install [CodeBlocks](https://www.codeblocks.org/downloads/binaries/)
+2) Insall [OpenGL](https://www.transmissionzero.co.uk/software/freeglut-devel/)
+
 
 ## **Game Description**
 
