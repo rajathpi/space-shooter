@@ -20,8 +20,8 @@ Dodge the objects and shoot them
 
 ## **Objective**
                       
-> Beat the high score
-> Score +1 point for shooting the object
-> Score +50 for level up
+> 1) Beat the high score
+> 2) Score +1 point for shooting the object
+> 3)Score +50 for level up
 
 
