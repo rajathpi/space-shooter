@@ -16,11 +16,11 @@ OpenGL project on the Space Shooter
                         Mouse Control : 
                                         Left mouse button - SHOOT
                                         
-                                        
+********************************************************************                                      
                       I N S T R U C T I O N S
                       
                       Dodge the objects and shoot them
-                      
+********************************************************************
                       O B J E C T I V E
                       
                       1) Beat the high score
