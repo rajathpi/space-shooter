@@ -1,4 +1,4 @@
-# SpaceShooter
+# Space Shooter
 
 OpenGL project on the Space Shooter
 
