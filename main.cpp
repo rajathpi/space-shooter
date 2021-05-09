@@ -16,9 +16,11 @@ enum view {INTRO, MENU, INSTRUCTIONS, GAME};
 view viewPage = INTRO; // initial value
 bool keyStates[256] = {false};
 
-int alienLife = 100;
+int alienLife1 = 100;
+int alienLife2 = 100;
 bool gameOver = false;
-float xOne=0,yOne=0;				//Spaceship coordinates
+float xOne = 500, yOne = 0;
+float xTwo = -500, yTwo = 0;				//Spaceship coordinates
 GLint CI=0;
 GLfloat a[][2]={0,-50, 70,-50, 70,70, -70,70};
 GLfloat LightColor[][3]={1,1,0,   0,1,1,   0,1,0};
@@ -357,11 +359,11 @@ void DrawSpaceshipDoom()
 	glPopMatrix();
 }
 
-void SpaceshipCreate(){	
+void SpaceshipCreate(int x, int y){	
 	glPushMatrix();
-	glTranslated(xOne,yOne,0);
-	// if(!checkIfSpaceShipIsSafe() && alienLife ){
-	// 	alienLife-=10;
+	glTranslated(x,y,0);
+	// if(!checkIfSpaceShipIsSafe() && alienLife1 ){
+	// 	alienLife1-=10;
 	// 	xStart -= 23;
 	// }
 	DrawSpaceshipDoom();
@@ -384,8 +386,9 @@ void gameScreenDisplay()
 	//SetDisplayMode(GAME_SCREEN);
 	//DisplayHealthBar();
 	glScalef(2, 2 ,0);
-	if(alienLife){
-		SpaceshipCreate();
+	
+	if(alienLife1){
+		SpaceshipCreate(xOne, yOne);
 	}
 	else {
 		gameOver=true;
@@ -393,7 +396,14 @@ void gameScreenDisplay()
 
 		// instructionsGame = false;
 		// startScreen = false;
-	}								//<----------------------gameover screen
+	}	
+	if(alienLife2) {
+		glPushMatrix();
+		glScalef(-1, 1, 1);
+		SpaceshipCreate(xTwo, yTwo);
+		//glScalef(-1, 1, 1);
+		glPopMatrix();
+	}							
 
 	//StoneGenerate();
 	
@@ -410,6 +420,11 @@ void keyOperations() {
 		if(keyStates['a'] == true) xOne-=SPACESHIP_SPEED; 
 		if(keyStates['w'] == true) yOne+=SPACESHIP_SPEED;
 		if(keyStates['s'] == true) yOne-=SPACESHIP_SPEED;
+
+		if(keyStates['l'] == true) xTwo+=SPACESHIP_SPEED; 
+		if(keyStates['j'] == true) xTwo-=SPACESHIP_SPEED; 
+		if(keyStates['i'] == true) yTwo+=SPACESHIP_SPEED;
+		if(keyStates['k'] == true) yTwo-=SPACESHIP_SPEED;
 	}
 }
 
