@@ -7,7 +7,14 @@
 #include<OpenGL/gl.h>
 #include<math.h>
 
+#define XMAX 1200
+#define YMAX 700
 #define SPACESHIP_SPEED 20
+#define TOP 0
+#define RIGHT 1
+#define BOTTOM 2
+#define LEFT 3
+
 
 GLint m_viewport[4];
 bool mButtonPressed = false;
@@ -15,12 +22,16 @@ float mouseX, mouseY;
 enum view {INTRO, MENU, INSTRUCTIONS, GAME};
 view viewPage = INTRO; // initial value
 bool keyStates[256] = {false};
+bool direction[4] = {false};
+bool laser1Dir[2] = {false};
+bool laser2Dir[2] = {false};
 
 int alienLife1 = 100;
 int alienLife2 = 100;
 bool gameOver = false;
 float xOne = 500, yOne = 0;
-float xTwo = -500, yTwo = 0;				//Spaceship coordinates
+float xTwo = 500, yTwo = 0;
+bool laser1 = false, laser2 = false;				
 GLint CI=0;
 GLfloat a[][2]={0,-50, 70,-50, 70,70, -70,70};
 GLfloat LightColor[][3]={1,1,0,   0,1,1,   0,1,0};
@@ -93,8 +104,7 @@ void startScreenDisplay()
 {	
 	glLineWidth(10);
 	//SetDisplayMode(MENU_SCREEN);
-	printf("Start screen display called !\n");
-	
+
 	glColor3f(1,0,0);
 	glBegin(GL_LINE_LOOP);               //Border
 		glVertex2f(-750 ,-500);
@@ -132,6 +142,7 @@ void startScreenDisplay()
 		if(mButtonPressed){
 			//startGame = true ;
 			//gameOver = false;
+			alienLife1 = alienLife2 = 200;
 			viewPage = GAME;
 			mButtonPressed = false;
 		}
@@ -359,6 +370,23 @@ void DrawSpaceshipDoom()
 	glPopMatrix();
 }
 
+void DrawLaser(int x, int y, bool dir[]) {
+	//glPushMatrix();
+	int xend = -XMAX, yend = y;
+	if(dir[0])
+		yend = YMAX;
+	else if(dir[1])
+		yend = -YMAX;
+	
+	glLineWidth(5);
+	glColor3f(1, 0, 0);
+	glBegin(GL_LINES);
+		glVertex2f(x, y);
+		glVertex2f(xend, yend);
+	glEnd();
+	//glPopMatrix();
+}
+
 void SpaceshipCreate(int x, int y){	
 	glPushMatrix();
 	glTranslated(x,y,0);
@@ -377,8 +405,39 @@ void SpaceshipCreate(int x, int y){
 	// if(mButtonPressed) {
 	// 	DrawLazerBeam();
 	// }
-	glEnd(); 
+	glEnd(); 	
 	glPopMatrix();
+}
+
+void checkLaserContact(int x, int y, bool dir[], int xp, int yp, bool player1) {
+	int xend = -XMAX, yend = y;
+	if(dir[0])
+		yend = YMAX;
+	else if(dir[1])
+		yend = -YMAX;
+
+	// Here we find out if the laser(line) intersects with spaceship(circle)
+	// by solving the equations for the same and finding the discriminant of the 
+	// quadratic equation obtained
+	float m = (float)(yend - y) / (float)(xend - x);
+	float k = y - m * x ;
+	int r = 50; // approx radius of the spaceship
+
+	//calculating value of b, a, and c needed to find discriminant
+	float b = 2 * xp - 2 * m * (k - yp);
+	float a = 1 + m * m;
+	float c = xp * xp + (k - yp) * (k - yp) - r * r;
+
+	float d = (b * b - 4 * a * c); // discriminant for the equation
+	printf("\nDisc: %f x: %d, y: %d, xp: %d, yp: %d", d, x, y, xp, yp);
+	if(d >= 0) {
+		if(player1)
+			alienLife1 -= 10;
+		else
+			alienLife2 -= 10;
+
+		printf("%d %d\n", alienLife1, alienLife2);
+	}
 }
 
 void gameScreenDisplay()
@@ -387,26 +446,36 @@ void gameScreenDisplay()
 	//DisplayHealthBar();
 	glScalef(2, 2 ,0);
 	
-	if(alienLife1){
+	if(alienLife1 > 0){
 		SpaceshipCreate(xOne, yOne);
+		if(laser1) {
+			DrawLaser(xOne, yOne, laser1Dir);
+			checkLaserContact(xOne, yOne, laser1Dir, -xTwo, yTwo, true);
+		}
 	}
 	else {
 		gameOver=true;
 		viewPage = MENU;
-
 		// instructionsGame = false;
 		// startScreen = false;
 	}	
-	if(alienLife2) {
+
+	if(alienLife2 > 0) {
 		glPushMatrix();
 		glScalef(-1, 1, 1);
 		SpaceshipCreate(xTwo, yTwo);
+		if(laser2) {
+			DrawLaser(xTwo, yTwo, laser2Dir);
+			checkLaserContact(xTwo, yTwo, laser2Dir, -xOne, yOne, false);
+		}
 		//glScalef(-1, 1, 1);
 		glPopMatrix();
+	}
+	else {
+		gameOver=true;
+		viewPage = MENU;
 	}							
-
 	//StoneGenerate();
-	
 }
 
 void keyOperations() {
@@ -416,15 +485,33 @@ void keyOperations() {
 		printf("enter key pressed\n");
 	}
 	if(viewPage == GAME) {
-		if(keyStates['d'] == true) xOne+=SPACESHIP_SPEED; 
-		if(keyStates['a'] == true) xOne-=SPACESHIP_SPEED; 
-		if(keyStates['w'] == true) yOne+=SPACESHIP_SPEED;
-		if(keyStates['s'] == true) yOne-=SPACESHIP_SPEED;
-
-		if(keyStates['l'] == true) xTwo+=SPACESHIP_SPEED; 
-		if(keyStates['j'] == true) xTwo-=SPACESHIP_SPEED; 
-		if(keyStates['i'] == true) yTwo+=SPACESHIP_SPEED;
-		if(keyStates['k'] == true) yTwo-=SPACESHIP_SPEED;
+		laser1Dir[0] = laser1Dir[1] = false;
+		laser2Dir[0] = laser2Dir[1] = false;
+		if(keyStates['c'] == true) {
+			laser2 = true;
+			if(keyStates['w'] == true) 	laser2Dir[0] = true;
+			if(keyStates['s'] == true) 	laser2Dir[1] = true;
+		}
+		else {
+			laser2 = false;
+			if(keyStates['d'] == true) xTwo-=SPACESHIP_SPEED; 
+			if(keyStates['a'] == true) xTwo+=SPACESHIP_SPEED; 
+			if(keyStates['w'] == true) yTwo+=SPACESHIP_SPEED; 
+			if(keyStates['s'] == true) yTwo-=SPACESHIP_SPEED;
+		}
+		
+		if(keyStates['m'] == true) {
+			laser1 = true;
+			if(keyStates['i'] == true) laser1Dir[0] = true;
+			if(keyStates['k'] == true) laser1Dir[1] = true;
+		}
+		else {
+			laser1 = false;
+			if(keyStates['l'] == true) xOne+=SPACESHIP_SPEED; 
+			if(keyStates['j'] == true) xOne-=SPACESHIP_SPEED; 
+			if(keyStates['i'] == true) yOne+=SPACESHIP_SPEED;
+			if(keyStates['k'] == true) yOne-=SPACESHIP_SPEED;
+		}
 	}
 }
 
@@ -512,6 +599,10 @@ void keyPressed(unsigned char key, int x, int y)
 	glutPostRedisplay();
 }
 
+void refresh() {
+	glutPostRedisplay();
+}
+
 void keyReleased(unsigned char key, int x, int y) {
 	keyStates[key] = false;
 }
@@ -525,6 +616,7 @@ int main(int argc, char **argv)
     glutCreateWindow("Space Shooter");
     init();
     //glutReshapeFunc(reshape);
+	glutIdleFunc(refresh);
     glutKeyboardFunc(keyPressed);
 	glutKeyboardUpFunc(keyReleased);
 	glutMouseFunc(mouseClick);
