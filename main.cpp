@@ -3,8 +3,8 @@
 #include<stdlib.h>
 #include<GL/glut.h>
 #include<math.h>
-#define GL_SILENCE_DEPRECATION
 
+#define GL_SILENCE_DEPRECATION
 
 #define XMAX 1200
 #define YMAX 700
@@ -30,7 +30,7 @@ int alienLife2 = 100;
 bool gameOver = false;
 float xOne = 500, yOne = 0;
 float xTwo = 500, yTwo = 0;
-bool laser1 = false, laser2 = false;
+bool laser1 = false, laser2 = false;				
 GLint CI=0;
 GLfloat a[][2]={0,-50, 70,-50, 70,70, -70,70};
 GLfloat LightColor[][3]={1,1,0,   0,1,1,   0,1,0};
@@ -141,7 +141,7 @@ void startScreenDisplay()
 		if(mButtonPressed){
 			//startGame = true ;
 			//gameOver = false;
-			//alienLife1 = alienLife2 = 200;
+			alienLife1 = alienLife2 = 200;
 			viewPage = GAME;
 			mButtonPressed = false;
 		}
@@ -209,9 +209,12 @@ void instructionsScreenDisplay()
 	//	nextScreen = false ,previousScreen = false; //as set by backButton()
 }
 
-void DrawAlienBody()
+void DrawAlienBody(bool isPlayer1)
 {
-	glColor3f(0,1,0);				//BODY color
+	if(isPlayer1)
+		glColor3f(0,1,0);	
+	else
+		glColor3f(1,1,0);		//BODY color
 	glBegin(GL_POLYGON);
 	for(int i=0;i<=8;i++)
 		glVertex2fv(AlienBody[i]);
@@ -243,12 +246,16 @@ void DrawAlienCollar()
 		glVertex2fv(AlienCollar[i]);
 	glEnd();
 }
-void DrawAlienFace()
+void DrawAlienFace(bool isPlayer1)
 {
 	//glColor3f(0.6,0.0,0.286);				//FACE
 	//glColor3f(0.8,0.2,0.1);
 	//glColor3f(0,0.5,1);
+	//if(isPlayer1)
 	glColor3f(0,0,1);
+	// else
+	// 	glColor3f(0,1,0);
+	
 	glBegin(GL_POLYGON);
 	for(int i=0;i<=42 ;i++)
 		glVertex2fv(ALienFace[i]);
@@ -280,10 +287,12 @@ void DrawAlienBeak()
 		glVertex2fv(ALienBeak[i]);
 	glEnd();
 }
-void DrawAlienEyes()
+void DrawAlienEyes(bool isPlayer1)
 {
-
+	// if(isPlayer1)
 	glColor3f(0,1,1);
+	// else 
+	// 	glColor3f(0,0,0);
 
 	glPushMatrix();
 	glRotated(-10,0,0,1);
@@ -299,18 +308,21 @@ void DrawAlienEyes()
 	glutSolidSphere(1,100,100);
 	glPopMatrix();
 }
-void DrawAlien()
+void DrawAlien(bool isPlayer1)
 {
-	DrawAlienBody();
+	DrawAlienBody(isPlayer1);
 	DrawAlienCollar();
-	DrawAlienFace();
+	DrawAlienFace(isPlayer1);
 	DrawAlienBeak();
-	DrawAlienEyes();
+	DrawAlienEyes(isPlayer1);
 }
-void DrawSpaceshipBody()
+void DrawSpaceshipBody(bool isPlayer1)
 {
-	glColor3f(1,0,0);				//BASE
-
+	if(isPlayer1)
+		glColor3f(1, 0, 0);			//BASE
+	else
+		glColor3f(0.5, 0, 0.5);
+	
 	glPushMatrix();
 	glScalef(70,20,1);
 	glutSolidSphere(1,50,50);
@@ -376,7 +388,6 @@ void DrawLaser(int x, int y, bool dir[]) {
 		yend = YMAX;
 	else if(dir[1])
 		yend = -YMAX;
-
 	glLineWidth(5);
 	glColor3f(1, 0, 0);
 	glBegin(GL_LINES);
@@ -386,7 +397,7 @@ void DrawLaser(int x, int y, bool dir[]) {
 	//glPopMatrix();
 }
 
-void SpaceshipCreate(int x, int y){
+void SpaceshipCreate(int x, int y, bool isPlayer1){
 	glPushMatrix();
 	glTranslated(x,y,0);
 	// if(!checkIfSpaceShipIsSafe() && alienLife1 ){
@@ -396,10 +407,10 @@ void SpaceshipCreate(int x, int y){
 	DrawSpaceshipDoom();
 	glPushMatrix();
 	glTranslated(4,19,0);
-	DrawAlien();
+	DrawAlien(isPlayer1);
 	glPopMatrix();
 	DrawSteeringWheel();
-	DrawSpaceshipBody();
+	DrawSpaceshipBody(isPlayer1);
 	// DrawSpaceShipLazer();
 	// if(mButtonPressed) {
 	// 	DrawLazerBeam();
@@ -426,13 +437,14 @@ void DisplayHealthBar2() {
 
 void checkLaserContact(int x, int y, bool dir[], int xp, int yp, bool player1) {
 	int xend = -XMAX, yend = y;
+	xp += 8; yp += 8; // moving circle slightly up to fix laser issue
 	if(dir[0])
 		yend = YMAX;
 	else if(dir[1])
 		yend = -YMAX;
 
 	// Here we find out if the laser(line) intersects with spaceship(circle)
-	// by solving the equations for the same and finding the discriminant of the
+	// by solving the equations for the same and finding the discriminant of the 
 	// quadratic equation obtained
 	float m = (float)(yend - y) / (float)(xend - x);
 	float k = y - m * x ;
@@ -462,9 +474,9 @@ void gameScreenDisplay()
 	DisplayHealthBar1();
 	DisplayHealthBar2();
 	glScalef(2, 2 ,0);
-
+	
 	if(alienLife1 > 0){
-		SpaceshipCreate(xOne, yOne);
+		SpaceshipCreate(xOne, yOne, true);
 		if(laser1) {
 			DrawLaser(xOne, yOne, laser1Dir);
 			checkLaserContact(xOne, yOne, laser1Dir, -xTwo, yTwo, true);
@@ -475,12 +487,12 @@ void gameScreenDisplay()
 		viewPage = MENU;
 		// instructionsGame = false;
 		// startScreen = false;
-	}
+	}	
 
 	if(alienLife2 > 0) {
 		glPushMatrix();
 		glScalef(-1, 1, 1);
-		SpaceshipCreate(xTwo, yTwo);
+		SpaceshipCreate(xTwo, yTwo, false);
 		if(laser2) {
 			DrawLaser(xTwo, yTwo, laser2Dir);
 			checkLaserContact(xTwo, yTwo, laser2Dir, -xOne, yOne, false);
@@ -491,7 +503,7 @@ void gameScreenDisplay()
 	else {
 		gameOver=true;
 		viewPage = MENU;
-	}
+	}							
 	//StoneGenerate();
 }
 
@@ -511,12 +523,12 @@ void keyOperations() {
 		}
 		else {
 			laser2 = false;
-			if(keyStates['d'] == true) xTwo-=SPACESHIP_SPEED;
-			if(keyStates['a'] == true) xTwo+=SPACESHIP_SPEED;
-			if(keyStates['w'] == true) yTwo+=SPACESHIP_SPEED;
+			if(keyStates['d'] == true) xTwo-=SPACESHIP_SPEED; 
+			if(keyStates['a'] == true) xTwo+=SPACESHIP_SPEED; 
+			if(keyStates['w'] == true) yTwo+=SPACESHIP_SPEED; 
 			if(keyStates['s'] == true) yTwo-=SPACESHIP_SPEED;
 		}
-
+		
 		if(keyStates['m'] == true) {
 			laser1 = true;
 			if(keyStates['i'] == true) laser1Dir[0] = true;
@@ -524,8 +536,8 @@ void keyOperations() {
 		}
 		else {
 			laser1 = false;
-			if(keyStates['l'] == true) xOne+=SPACESHIP_SPEED;
-			if(keyStates['j'] == true) xOne-=SPACESHIP_SPEED;
+			if(keyStates['l'] == true) xOne+=SPACESHIP_SPEED; 
+			if(keyStates['j'] == true) xOne-=SPACESHIP_SPEED; 
 			if(keyStates['i'] == true) yOne+=SPACESHIP_SPEED;
 			if(keyStates['k'] == true) yOne-=SPACESHIP_SPEED;
 		}
