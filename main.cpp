@@ -1,4 +1,6 @@
-// #include<windows.h>
+#ifdef _WIN32
+	#include<windows.h>
+#endif
 #include<stdio.h>
 #include<stdlib.h>
 #include<GL/glut.h>
@@ -18,7 +20,7 @@
 GLint m_viewport[4];
 bool mButtonPressed = false;
 float mouseX, mouseY;
-enum view {INTRO, MENU, INSTRUCTIONS, GAME};
+enum view {INTRO, MENU, INSTRUCTIONS, GAME, GAMEOVER};
 view viewPage = INTRO; // initial value
 bool keyStates[256] = {false};
 bool direction[4] = {false};
@@ -139,9 +141,7 @@ void startScreenDisplay()
 	if(mouseX>=-100 && mouseX<=100 && mouseY>=150 && mouseY<=200){
 		glColor3f(0 ,0 ,1) ;
 		if(mButtonPressed){
-			//startGame = true ;
-			//gameOver = false;
-			alienLife1 = alienLife2 = 200;
+			alienLife1 = alienLife2 = 100;
 			viewPage = GAME;
 			mButtonPressed = false;
 		}
@@ -164,8 +164,8 @@ void startScreenDisplay()
 	if(mouseX>=-100 && mouseX<=100 && mouseY>=-90 && mouseY<=-40){
 		glColor3f(0 ,0 ,1);
 		if(mButtonPressed){
-			//gameQuit = true ;
 			mButtonPressed = false;
+			exit(0);
 		}
 	}
 	else
@@ -459,9 +459,9 @@ void checkLaserContact(int x, int y, bool dir[], int xp, int yp, bool player1) {
 	printf("\nDisc: %f x: %d, y: %d, xp: %d, yp: %d", d, x, y, xp, yp);
 	if(d >= 0) {
 		if(player1)
-			alienLife1 -= 10;
+			alienLife1 -= 5;
 		else
-			alienLife2 -= 10;
+			alienLife2 -= 5;
 
 		printf("%d %d\n", alienLife1, alienLife2);
 	}
@@ -469,8 +469,6 @@ void checkLaserContact(int x, int y, bool dir[], int xp, int yp, bool player1) {
 
 void gameScreenDisplay()
 {
-	//SetDisplayMode(GAME_SCREEN);
-	//DisplayHealthBar();
 	DisplayHealthBar1();
 	DisplayHealthBar2();
 	glScalef(2, 2 ,0);
@@ -483,10 +481,7 @@ void gameScreenDisplay()
 		}
 	}
 	else {
-		gameOver=true;
-		viewPage = MENU;
-		// instructionsGame = false;
-		// startScreen = false;
+		viewPage = GAMEOVER;
 	}	
 
 	if(alienLife2 > 0) {
@@ -497,14 +492,27 @@ void gameScreenDisplay()
 			DrawLaser(xTwo, yTwo, laser2Dir);
 			checkLaserContact(xTwo, yTwo, laser2Dir, -xOne, yOne, false);
 		}
-		//glScalef(-1, 1, 1);
 		glPopMatrix();
 	}
 	else {
-		gameOver=true;
-		viewPage = MENU;
-	}							
-	//StoneGenerate();
+		viewPage = GAMEOVER;
+	}
+
+	if(viewPage == GAMEOVER) {
+		xOne = xTwo = 500;
+		yOne = yTwo = 0;
+	}					
+}
+
+void displayGameOverMessage() {
+	glColor3f(1, 1, 0);
+	char* message;
+	if(alienLife1 > 0)
+		message = "Game Over! Player 1 won the game";
+	else
+		message = "Game Over! Player 2 won the game";
+	
+	displayRasterText(-350 ,600 ,0.4 , message);
 }
 
 void keyOperations() {
@@ -566,6 +574,10 @@ void display()
 			//reset scaling values
 			glScalef(1/2 ,1/2 ,0);
 			break;
+		case GAMEOVER: 
+			displayGameOverMessage();
+			startScreenDisplay();
+			break;
 	}
 
 	glFlush();
@@ -613,18 +625,6 @@ void mouseClick(int buttonPressed ,int state ,int x, int y) {
 void keyPressed(unsigned char key, int x, int y)
 {
 	keyStates[key] = true;
-	// printf("key pressed\n");
-	// if(key == 13 && viewPage == INTRO) {
-	// 	viewPage = MENU;
-	// 	printf("view value changed to %d", viewPage);
-	// 	printf("enter key pressed\n");
-	// }
-	// if(viewPage == GAME) {
-	// 	if(key == 'd') xOne+=SPACESHIP_SPEED;
-	// 	if(key == 'a') xOne-=SPACESHIP_SPEED;
-	// 	if(key == 'w') yOne+=SPACESHIP_SPEED;
-	// 	if(key == 's') yOne-=SPACESHIP_SPEED;
-	// }
 	glutPostRedisplay();
 }
 
