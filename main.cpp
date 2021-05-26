@@ -5,7 +5,6 @@
 #include<stdlib.h>
 #include<GL/glut.h>
 #include<math.h>
-
 #define GL_SILENCE_DEPRECATION
 
 #define XMAX 1200
@@ -32,7 +31,7 @@ int alienLife2 = 100;
 bool gameOver = false;
 float xOne = 500, yOne = 0;
 float xTwo = 500, yTwo = 0;
-bool laser1 = false, laser2 = false;				
+bool laser1 = false, laser2 = false;
 GLint CI=0;
 GLfloat a[][2]={0,-50, 70,-50, 70,70, -70,70};
 GLfloat LightColor[][3]={1,1,0,   0,1,1,   0,1,0};
@@ -193,17 +192,25 @@ void instructionsScreenDisplay()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//SetDisplayMode(MENU_SCREEN);
 	//colorBackground();
-	glColor3f(1, 1, 1);
-	displayRasterText(-900 ,600 ,0.4 ,"INSTRUCTIONS");
 	glColor3f(1, 0, 0);
-	displayRasterText(-900 ,400 ,0.4 ,"Key 'w' to move up.");
-	displayRasterText(-900 ,300 ,0.4 ,"Key 's' to move down.");
-	displayRasterText(-900 ,200 ,0.4 ,"Key 'd' to move right.");
-	displayRasterText(-900 ,100 ,0.4 ,"Key 'a' to move left.");
-	displayRasterText(-900 ,0.0 ,0.4 ,"Left mouse click to shoot laser");
-	//displayRasterText(-900 ,-100 ,0.4 ,"The packet can be placed only when 's' is pressed before.");
-	displayRasterText(-900 ,-200 ,0.4 ,"You Get 1 point for shooting each objet and 50 points for completing each lvl ");
-	displayRasterText(-900, -270,0.4,"The Objective is to score maximum points");
+	displayRasterText(-900 ,550 ,0.4 ,"INSTRUCTIONS");
+    glColor3f(1, 0, 0);
+	displayRasterText(-1000 ,400 ,0.4 ,"PLAYER 1");
+	displayRasterText(200 ,400 ,0.4 ,"PLAYER 2");
+	glColor3f(1, 1, 1);
+	displayRasterText(-1100 ,300 ,0.4 ,"Key 'w' to move up.");
+	displayRasterText(-1100 ,200 ,0.4 ,"Key 's' to move down.");
+	displayRasterText(-1100 ,100 ,0.4 ,"Key 'd' to move right.");
+	displayRasterText(-1100 ,0 ,0.4 ,"Key 'a' to move left.");
+	displayRasterText(100 ,300 ,0.4 ,"Key 'i' to move up.");
+    displayRasterText(100 ,200 ,0.4 ,"Key 'k' to move down.");
+    displayRasterText(100 ,100 ,0.4 ,"Key 'j' to move right.");
+    displayRasterText(100 ,0 ,0.4 ,"Key 'l' to move left.");
+	displayRasterText(-1100 ,-100 ,0.4 ,"Key 'c' to shoot, Use 'w' and 's' to change direction.");
+	displayRasterText(100 ,-100 ,0.4 ,"Key 'm' to shoot, Use 'i' and 'k' to change direction.");
+	//displayRasterText(-1100 ,-100 ,0.4 ,"The packet can be placed only when 's' is pressed before.");
+	displayRasterText(-1100, -300,0.4,"The Objective is to kill your opponent.");
+	displayRasterText(-1100 ,-370 ,0.4 ,"Each time a player gets shot, LIFE decreases by 5 points.");
 	backButton();
 	//if(previousScreen)
 	//	nextScreen = false ,previousScreen = false; //as set by backButton()
@@ -212,7 +219,7 @@ void instructionsScreenDisplay()
 void DrawAlienBody(bool isPlayer1)
 {
 	if(isPlayer1)
-		glColor3f(0,1,0);	
+		glColor3f(0,1,0);
 	else
 		glColor3f(1,1,0);		//BODY color
 	glBegin(GL_POLYGON);
@@ -255,7 +262,7 @@ void DrawAlienFace(bool isPlayer1)
 	glColor3f(0,0,1);
 	// else
 	// 	glColor3f(0,1,0);
-	
+
 	glBegin(GL_POLYGON);
 	for(int i=0;i<=42 ;i++)
 		glVertex2fv(ALienFace[i]);
@@ -291,7 +298,7 @@ void DrawAlienEyes(bool isPlayer1)
 {
 	// if(isPlayer1)
 	glColor3f(0,1,1);
-	// else 
+	// else
 	// 	glColor3f(0,0,0);
 
 	glPushMatrix();
@@ -322,7 +329,7 @@ void DrawSpaceshipBody(bool isPlayer1)
 		glColor3f(1, 0, 0);			//BASE
 	else
 		glColor3f(0.5, 0, 0.5);
-	
+
 	glPushMatrix();
 	glScalef(70,20,1);
 	glutSolidSphere(1,50,50);
@@ -421,7 +428,7 @@ void SpaceshipCreate(int x, int y, bool isPlayer1){
 
 void DisplayHealthBar1() {
 	char temp1[40];
-	glColor3f(0 ,0 ,1);
+	glColor3f(1 ,1 ,1);
 	sprintf(temp1,"  LIFE = %d",alienLife1);
 	displayRasterText(-1100 ,600 ,0.4 ,temp1);
 	glColor3f(1 ,0 ,0);
@@ -429,7 +436,7 @@ void DisplayHealthBar1() {
 
 void DisplayHealthBar2() {
 	char temp2[40];
-	glColor3f(0 ,0 ,1);
+	glColor3f(1 ,1 ,1);
 	sprintf(temp2,"  LIFE = %d",alienLife2);
 	displayRasterText(800 ,600 ,0.4 ,temp2);
 	glColor3f(1 ,0 ,0);
@@ -444,7 +451,7 @@ void checkLaserContact(int x, int y, bool dir[], int xp, int yp, bool player1) {
 		yend = -YMAX;
 
 	// Here we find out if the laser(line) intersects with spaceship(circle)
-	// by solving the equations for the same and finding the discriminant of the 
+	// by solving the equations for the same and finding the discriminant of the
 	// quadratic equation obtained
 	float m = (float)(yend - y) / (float)(xend - x);
 	float k = y - m * x ;
@@ -472,7 +479,7 @@ void gameScreenDisplay()
 	DisplayHealthBar1();
 	DisplayHealthBar2();
 	glScalef(2, 2 ,0);
-	
+
 	if(alienLife1 > 0){
 		SpaceshipCreate(xOne, yOne, true);
 		if(laser1) {
@@ -482,7 +489,7 @@ void gameScreenDisplay()
 	}
 	else {
 		viewPage = GAMEOVER;
-	}	
+	}
 
 	if(alienLife2 > 0) {
 		glPushMatrix();
@@ -501,7 +508,7 @@ void gameScreenDisplay()
 	if(viewPage == GAMEOVER) {
 		xOne = xTwo = 500;
 		yOne = yTwo = 0;
-	}					
+	}
 }
 
 void displayGameOverMessage() {
@@ -511,7 +518,7 @@ void displayGameOverMessage() {
 		message = "Game Over! Player 1 won the game";
 	else
 		message = "Game Over! Player 2 won the game";
-	
+
 	displayRasterText(-350 ,600 ,0.4 , message);
 }
 
@@ -531,12 +538,12 @@ void keyOperations() {
 		}
 		else {
 			laser2 = false;
-			if(keyStates['d'] == true) xTwo-=SPACESHIP_SPEED; 
-			if(keyStates['a'] == true) xTwo+=SPACESHIP_SPEED; 
-			if(keyStates['w'] == true) yTwo+=SPACESHIP_SPEED; 
+			if(keyStates['d'] == true) xTwo-=SPACESHIP_SPEED;
+			if(keyStates['a'] == true) xTwo+=SPACESHIP_SPEED;
+			if(keyStates['w'] == true) yTwo+=SPACESHIP_SPEED;
 			if(keyStates['s'] == true) yTwo-=SPACESHIP_SPEED;
 		}
-		
+
 		if(keyStates['m'] == true) {
 			laser1 = true;
 			if(keyStates['i'] == true) laser1Dir[0] = true;
@@ -544,8 +551,8 @@ void keyOperations() {
 		}
 		else {
 			laser1 = false;
-			if(keyStates['l'] == true) xOne+=SPACESHIP_SPEED; 
-			if(keyStates['j'] == true) xOne-=SPACESHIP_SPEED; 
+			if(keyStates['l'] == true) xOne+=SPACESHIP_SPEED;
+			if(keyStates['j'] == true) xOne-=SPACESHIP_SPEED;
 			if(keyStates['i'] == true) yOne+=SPACESHIP_SPEED;
 			if(keyStates['k'] == true) yOne-=SPACESHIP_SPEED;
 		}
@@ -574,7 +581,7 @@ void display()
 			//reset scaling values
 			glScalef(1/2 ,1/2 ,0);
 			break;
-		case GAMEOVER: 
+		case GAMEOVER:
 			displayGameOverMessage();
 			startScreenDisplay();
 			break;
