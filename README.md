@@ -26,7 +26,7 @@ OpenGL project on the Space Shooter
 > D - RIGHT <br />
 > C - to shoot, Use 'w' and 's' to change direction. <br />  
 
-*Keybord control for PLAYER 2 * : 
+*Keybord control for PLAYER 2* : 
 > I - UP <br />
 > K - DOWN <br />
 > J - LEFT <br />
