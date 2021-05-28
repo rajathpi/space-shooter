@@ -82,7 +82,7 @@ void introScreen()
    		glColor3f(1.0, 0.7, 0.8);
 	displayRasterText(-100, 150, 0.0,"created by");
 		glColor3f(1.0, 1.0, 1.0);
-	 displayRasterText(-80, 80, 0.0,"69x420");
+	 displayRasterText(-130, 80, 0.0,"SHOOTERS");
 	 	glColor3f(1.0, 0.0, 0.0);
 	  displayRasterText(-800, -100, 0.0," STUDENT NAMES");
 	  	glColor3f(1.0, 1.0, 1.0);
@@ -91,7 +91,7 @@ void introScreen()
 		glColor3f(1.0, 0.0, 0.0);
 	displayRasterText(500, -100, 0.0,"Under the Guidance of");
 		glColor3f(1.0, 1.0, 1.0);
-	displayRasterText(500, -200, 0.0,"Prof Puneeth");
+	displayRasterText(500, -200, 0.0,"Prof X");
 		glColor3f(1.0, 0.0, 0.0);
 	displayRasterText(-250, -400, 0.0,"Academic Year 2020-2021");
         glColor3f(1.0, 1.0, 1.0);
