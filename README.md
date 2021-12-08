@@ -1,5 +1,5 @@
 # Space Shooter
-space
+[code](https://raw.githubusercontent.com/rajathpi/space-shooter/main/main.cpp)<br>
 <p align="center">
 <img src="https://imgur.com/2e8FSeb.gif" >
 </p>
