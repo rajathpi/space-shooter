@@ -1,5 +1,4 @@
 # Space Shooter
-
 <p align="center">
 <img src="https://imgur.com/2e8FSeb.gif" >
 </p>
@@ -13,8 +12,8 @@ OpenGL project on the Space Shooter
 
 ## **Installation**
 
-1) Install [CodeBlocks](https://www.codeblocks.org/downloads/binaries/)
-2) Insall [OpenGL](https://www.transmissionzero.co.uk/software/freeglut-devel/)
+1) Install [CodeBlocks](https://www.codeblocks.org/downloads/binaries/)<br>
+2) Insall [OpenGL](https://www.transmissionzero.co.uk/software/freeglut-devel/)<br>
 
 
 ## **Game Description**
