@@ -1,5 +1,9 @@
 # Space Shooter
-[code](https://raw.githubusercontent.com/rajathpi/space-shooter/main/main.cpp)<br>
+<a href="https://raw.githubusercontent.com/rajathpi/space-shooter/main/main.cpp">
+  CODE
+  <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/285/backhand-index-pointing-left_1f448.png" width="30" align="center">
+ </a>
+
 <p align="center">
 <img src="https://imgur.com/2e8FSeb.gif" >
 </p>
