@@ -1,6 +1,6 @@
 # Space Shooter
 <a href="https://raw.githubusercontent.com/rajathpi/space-shooter/main/main.cpp">
-  CODE
+  Code
   <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/285/backhand-index-pointing-left_1f448.png" width="30" align="center">
  </a>
 
