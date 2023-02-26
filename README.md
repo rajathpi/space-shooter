@@ -80,3 +80,11 @@
 <p align="center">
 <img src="https://imgur.com/HWO5aoZ.png" >
 </p>
+
+## Project Report & ppt
+
+>Project Report</br>
+[Project Report.docx](https://github.com/Shijas-T/space-shooter/files/9599536/CG.project.report.docx)
+
+>ppt</br>
+[Mini Project.pptx](https://github.com/Shijas-T/space-shooter/files/9599545/CG.Mini.Project.pptx)
