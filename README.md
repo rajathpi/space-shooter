@@ -1,6 +1,6 @@
 <h1 align="center"> 
     <a href="https://rajathpi.github.io/space-shooter/">Space Shooter</a>  
-    <img src="https://em-content.zobj.net/source/microsoft-teams/337/rocket_1f680.png" width="70" align="center">
+    <img src="assets/emoji-rocket.png" width="70" align="center">
 </h1>
 <!-- <a href="https://raw.githubusercontent.com/rajathpi/space-shooter/main/main.cpp">
   Code
@@ -9,9 +9,9 @@
  </a> -->
 
 
-### OpenGL project on the Space Shooter <img src="https://em-content.zobj.net/source/microsoft-teams/337/alien-monster_1f47e.png" width="40" align="center">
+### OpenGL project on the Space Shooter <img src="assets/emoji-alien-monster.png" width="40" align="center">
 <p align="center">
-<img src="https://imgur.com/2e8FSeb.gif" >
+<img src="assets/gameplay.gif" >
 </p>
 
 <p>
@@ -24,28 +24,35 @@
 ## **Installation**
 
 1) Install [CodeBlocks](https://www.codeblocks.org/downloads/binaries/)<br>
-2) Insall [OpenGL](https://www.transmissionzero.co.uk/software/freeglut-devel/)<br>
+2) Install [OpenGL](https://www.transmissionzero.co.uk/software/freeglut-devel/)<br>
+
+Or build it straight from the command line, once freeglut is installed:
+
+```
+g++ main.cpp -o space-shooter -lfreeglut -lopengl32 -lglu32     # Windows
+g++ main.cpp -o space-shooter -lglut -lGL -lGLU                 # Linux
+```
 
 
 ## **Game Description**
 
-*Keybord control for PLAYER 1* : 
+*Keyboard controls for PLAYER 1* : 
 > W - UP <br />
 > S - DOWN <br />
 > A - LEFT <br />
 > D - RIGHT <br />
-> C - to shoot, Use 'w' and 's' to change direction. <br />  
+> C - to shoot. Hold 'w' or 's' while shooting to aim. <br />  
 
-*Keybord control for PLAYER 2* : 
+*Keyboard controls for PLAYER 2* : 
 > I - UP <br />
 > K - DOWN <br />
 > J - LEFT <br />
 > L - RIGHT <br />
-> M - to shoot, Use 'I' and 'K' to change direction. <br />  
+> M - to shoot. Hold 'i' or 'k' while shooting to aim. <br />  
                                                                               
 ## **Objective**
                       
-> kill your opponent. <br />
+> Kill your opponent. <br />
 > Each time a player gets shot, LIFE decreases by 5 points. <br />
 
 
@@ -65,19 +72,19 @@
 </p>
 
 <p align="center">
-<img src="https://imgur.com/Qez9nvx.png" >
+<img src="assets/screenshot-menu.png" >
 </p>
 
 <p>
 </p>
 
 <p align="center">
-<img src="https://imgur.com/Ds5JO6O.png" >
+<img src="assets/screenshot-gameplay.png" >
 </p>
 
 <p>
 </p>
 
 <p align="center">
-<img src="https://imgur.com/HWO5aoZ.png" >
+<img src="assets/screenshot-instructions.png" >
 </p>
